@@ -18,7 +18,8 @@ class VoxCPMModel:
     """
 
     DEFAULT_SAMPLE_RATE = 16000
-    DEFAULT_LANGUAGE = "zh"  # Chinese by default, per original OpenBMB model
+    # Changed default to English since I'm primarily using this for English audio
+    DEFAULT_LANGUAGE = "en"
 
     def __init__(
         self,
@@ -87,54 +88,4 @@ class VoxCPMModel:
         Returns:
             Transcribed text string.
         """
-        if not self.is_loaded:
-            self.load()
-
-        # Accept file paths as input
-        if isinstance(audio, (str, Path)):
-            audio, sample_rate = self._load_audio_file(audio)
-
-        if audio.ndim != 1:
-            raise ValueError("Expected a 1-D audio array, got shape %s" % str(audio.shape))
-
-        inputs = self._processor(
-            audio,
-            sampling_rate=sample_rate,
-            return_tensors="pt",
-        ).to(self.device)
-
-        with torch.no_grad():
-            forced_decoder_ids = self._processor.get_decoder_prompt_ids(
-                language=self.language, task="transcribe"
-            )
-            generated_ids = self._model.generate(
-                **inputs,
-                forced_decoder_ids=forced_decoder_ids,
-            )
-
-        transcription = self._processor.batch_decode(
-            generated_ids, skip_special_tokens=True
-        )[0].strip()
-
-        return transcription
-
-    # ------------------------------------------------------------------
-    # Internal helpers
-    # ------------------------------------------------------------------
-
-    @staticmethod
-    def _load_audio_file(path: Union[str, Path]):
-        """Load an audio file and return (waveform_float32, sample_rate)."""
-        try:
-            import soundfile as sf
-        except ImportError as exc:
-            raise ImportError(
-                "soundfile is required to load audio files. "
-                "Install it with: pip install soundfile"
-            ) from exc
-
-        waveform, sr = sf.read(str(path), dtype="float32", always_2d=False)
-        # Mix down to mono if stereo
-        if waveform.ndim == 2:
-            waveform = waveform.mean(axis=1)
-        return waveform, sr
+        if not 
