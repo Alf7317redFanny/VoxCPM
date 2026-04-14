@@ -1,3 +1,5 @@
+# VoxCPM
+
 <h2 align="center">VoxCPM2: Tokenizer-Free TTS for Multilingual Speech Generation, Creative Voice Design, and True-to-Life Cloning</h2>
 
 <p align="center">
@@ -35,6 +37,8 @@
 </p>
 
 > **Personal fork note:** I'm using this project to experiment with Voice Design for a podcast automation side project. Main area of interest is the controllable cloning + style guidance features. Will add my own usage examples under `examples/` as I go.
+>
+> **My setup:** Running on a single RTX 4090 (24GB VRAM). Found that keeping batch size at 1 and using `torch.float16` works fine for inference without running into OOM issues. Haven't tried fine-tuning yet.
 
 VoxCPM is a **tokenizer-free** Text-to-Speech system that directly generates continuous speech representations via an end-to-end **diffusion autoregressive architecture**, bypassing discrete tokenization to achieve highly natural and expressive synthesis.
 
@@ -43,5 +47,4 @@ VoxCPM is a **tokenizer-free** Text-to-Speech system that directly generates con
 ### ✨ Highlights
 
 - 🌍 **30-Language Multilingual** — Input text in any of the 30 supported languages and synthesize directly, no language tag needed
-- 🎨 **Voice Design** — Create a brand-new voice from a natural-language description alone (gender, age, tone, emotion, pace …), no reference audio required
-- 🎛️ **Controllable Cloning** — Clone any voice from a short reference clip, with optional style guidance to steer emotion, pac
+- 🎨 **Voice Design** — Crea
