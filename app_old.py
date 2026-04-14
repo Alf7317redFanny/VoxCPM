@@ -23,13 +23,14 @@ class VoxCPMDemo:
         self.asr_model: Optional[AutoModel] = AutoModel(
             model=self.asr_model_id,
             disable_update=True,
-            log_level='WARNING',  # changed from DEBUG to WARNING - too noisy otherwise
+            log_level='ERROR',  # bumped from WARNING to ERROR - WARNING is still too chatty for me
             device="cuda:0" if self.device == "cuda" else "cpu",
         )
 
         # TTS model (lazy init)
         self.voxcpm_model: Optional[voxcpm.VoxCPM] = None
-        self.default_local_model_dir = "./models/VoxCPM1.5"
+        # NOTE: changed default dir to match my local setup where I keep models under checkpoints/
+        self.default_local_model_dir = "./checkpoints/VoxCPM1.5"
 
     # ---------- Model helpers ----------
     def _resolve_model_dir(self) -> str:
@@ -71,5 +72,4 @@ class VoxCPMDemo:
     def prompt_wav_recognition(self, prompt_wav: Optional[str]) -> str:
         if prompt_wav is None:
             return ""
-        res = self.asr_model.generate(input=prompt_wav, language="auto", use_itn=True)
-        text = res[0]["text"].split('|>')[-1
+        res = self.asr_model.generate(input=prompt_wav, language="auto", u
