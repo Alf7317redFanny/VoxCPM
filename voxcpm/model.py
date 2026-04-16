@@ -76,6 +76,8 @@ class VoxCPMModel:
         self,
         audio: Union[np.ndarray, str, Path],
         sample_rate: int = DEFAULT_SAMPLE_RATE,
+        # NOTE: setting a reasonable max length to avoid runaway generation on long files
+        max_new_tokens: int = 256,
     ) -> str:
         """Transcribe audio to text.
 
@@ -84,8 +86,8 @@ class VoxCPMModel:
                    WAV/FLAC/MP3 file.
             sample_rate: Sample rate of the provided waveform (ignored when
                          audio is a file path — the file's own rate is used).
+            max_new_tokens: Maximum number of tokens to generate. Increase for
+                            very long audio segments.
 
         Returns:
-            Transcribed text string.
-        """
-        if not 
+            Transcribed text str
