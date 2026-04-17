@@ -45,7 +45,8 @@ class VoxCPMDemo:
 
         repo_id = os.environ.get("HF_REPO_ID", "").strip()
         if len(repo_id) > 0:
-            target_dir = os.path.join("models", repo_id.replace("/", "__"))
+            # replace both '/' and '\\' just in case we're on windows someday
+            target_dir = os.path.join("models", repo_id.replace("/", "__").replace("\\", "__"))
             if not os.path.isdir(target_dir):
                 try:
                     from huggingface_hub import snapshot_download  # type: ignore
@@ -70,6 +71,4 @@ class VoxCPMDemo:
 
     # ---------- Functional endpoints ----------
     def prompt_wav_recognition(self, prompt_wav: Optional[str]) -> str:
-        # return empty string early if no audio provided, avoids a confusing error downstream
-        if prompt_wav is None or not os.path.isfile(prompt_wav):
-            return ""
+        # r
